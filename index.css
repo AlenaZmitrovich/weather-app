@@ -1,0 +1,143 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(to right, gray, black);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background: linear-gradient(to right, rgb(130, 130, 130), black);
+}
+
+.footer {
+  background-color: red;
+  flex: 0 0 auto;
+  padding: 0.5rem 3rem;
+  background: linear-gradient(to right, rgb(130, 130, 130), black);
+  font-family: 'Shantell Sans', cursive;
+  color: aliceblue;
+  text-align: right;
+  font-size: 0.9rem;
+}
+
+.main {
+  flex: 1 0 auto;
+}
+
+.backgraund-image {
+  background-image: url('./images/search.png');
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 30%;
+}
+
+.logo-block {
+  display: flex;
+  align-items: center;
+}
+
+.logo-text {
+  font-family: 'Shantell Sans', cursive;
+  margin: 0;
+  color: aliceblue;
+}
+
+.search-form {
+  width: 70%;
+  padding: 1rem;
+}
+
+.alert-message-container {
+  width: 100%;
+  text-align: right;
+}
+
+.alert-message {
+  margin: 1rem;
+}
+
+.weather-date {
+  text-align: center;
+  color: white;
+  padding: 1rem;
+}
+
+.card {
+  background-color: transparent;
+  color: white;
+  text-align: center;
+}
+
+.forecast-width {
+  max-width: 40rem;
+}
+
+.current-weather-container {
+  padding-bottom: 3rem;
+}
+
+.recent-requests-container {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border: none;
+}
+
+.card-item {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.1rem;
+}
+
+.card-text {
+  margin: 0;
+}
+
+.recent-request-city {
+  text-align: right;
+}
+
+.btn-outline-info,
+.btn-outline-danger {
+  margin-left: 1rem;
+}
+
+@media screen and (max-width: 1399px) {
+  .card {
+    border: none;
+  }
+
+  .recent-request-column {
+    padding-top: 3rem;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .col-sm-12.col-md-3 {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 852px) {
+  .search-form {
+    width: 100%;
+    padding: 1rem;
+  }
+}
