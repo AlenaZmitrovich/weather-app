@@ -1,13 +1,27 @@
+//! для начала работы необходимо зарегистрироваться на https://openweathermap.org, сгенерировать токен и присвоить его переменной API_KEY
 const API_KEY = '';
+
+const cache = {};
+
+async function fetchData(url) {
+  if (cache[url]) {
+    return cache[url];
+  }
+
+  const response = await fetch(url);
+  const data = await response.json();
+
+  cache[url] = data;
+  return data;
+}
 
 // по названию города найти на него данные
 async function findCity(city) {
   try {
-    const geocoding = await fetch(
+    const geocoding = await fetchData(
       `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`
     );
-    const geocodingData = await geocoding.json();
-    return geocodingData;
+    return geocoding;
   } catch (error) {
     throw new Error(`Error finding city: ${error.message}`);
   }
@@ -40,11 +54,10 @@ async function getLatitudeAndLongitude(city) {
 async function getCurrentData(city) {
   try {
     const [latitude, longitude] = await getLatitudeAndLongitude(city);
-    const currentData = await fetch(
+    const currentData = await fetchData(
       `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
     );
-    const currentWeatherData = await currentData.json();
-    return currentWeatherData;
+    return currentData;
   } catch (error) {
     throw new Error(`Error getting latitude and longitude: ${error.message}`);
   }
@@ -103,12 +116,17 @@ async function getWeatherIconId(city) {
 async function getWeatherIcon(city) {
   try {
     const weatherIconId = await getWeatherIconId(city);
+
+    if (cache[weatherIconId]) {
+      return cache[weatherIconId];
+    }
+
     const icon = await fetch(
       `https://openweathermap.org/img/wn/${weatherIconId}@2x.png`
     );
-    const weatherIcon = icon.url;
 
-    return weatherIcon;
+    cache[weatherIconId] = icon.url;
+    return icon.url;
   } catch (error) {
     throw new Error(`Error getting weather icon: ${error.message}`);
   }
@@ -118,11 +136,10 @@ async function getWeatherIcon(city) {
 async function getCurrentAirPollutionData(city) {
   try {
     const [latitude, longitude] = await getLatitudeAndLongitude(city);
-    const currentAirPollutionData = await fetch(
+    const currentAirPollutionData = await fetchData(
       `http://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`
     );
-    const currentPollutionData = await currentAirPollutionData.json();
-    return currentPollutionData;
+    return currentAirPollutionData;
   } catch (error) {
     throw new Error(
       `Error getting current air pollution data: ${error.message}`
@@ -167,11 +184,10 @@ async function getCurrentAirPollutionDescription(city) {
 async function getForecast5DaysData(city) {
   try {
     const [latitude, longitude] = await getLatitudeAndLongitude(city);
-    const forecast5DaysData = await fetch(
+    const forecast5DaysData = await fetchData(
       `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
     );
-    const forecast5DaysWeather = await forecast5DaysData.json();
-    return forecast5DaysWeather;
+    return forecast5DaysData;
   } catch (error) {
     throw new Error(`Error getting 5-day forecast data: ${error.message}`);
   }
